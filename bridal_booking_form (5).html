@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridal Beauty — Booking Details Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose:       #b5435a;
+    --rose-light: #e8a0ae;
+    --rose-pale:  #fdf0f2;
+    --rose-mid:   #f2c4cc;
+    --cream:      #faf7f4;
+    --cream-dark: #f0ebe4;
+    --ink:        #2a1f1f;
+    --ink-mid:    #6b5555;
+    --ink-light:  #a89090;
+    --white:      #ffffff;
+    --shadow:     rgba(90,40,40,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(181,67,90,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(181,67,90,0.05) 0%, transparent 60%);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 3px; background: var(--cream-dark);
+  }
+  .progress-bar {
+    height: 100%; background: linear-gradient(90deg, var(--rose), var(--rose-light));
+    width: 0%; transition: width 0.4s ease;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    text-align: center;
+    padding: 72px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(181,67,90,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--rose-light);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .site-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .site-header h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+  .site-header p {
+    font-size: 0.9rem;
+    color: var(--ink-mid);
+    letter-spacing: 0.02em;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    max-width: 300px; margin: 32px auto;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--rose-mid);
+  }
+  .divider span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; color: var(--rose-light);
+  }
+
+  /* ── FORM CONTAINER ── */
+  .form-container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── STEPS ── */
+  .step { display: none; animation: fadeUp 0.4s ease; }
+  .step.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: 2px;
+    border: 1px solid var(--rose-mid);
+    padding: 40px 44px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 24px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--rose-light));
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--rose);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-title .num {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    background: var(--rose);
+    color: white;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .card-subtitle {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  /* ── PERSON CARD ── */
+  .person-card {
+    background: var(--rose-pale);
+    border: 1px solid var(--rose-mid);
+    border-radius: 2px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .person-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--rose);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rose-mid);
+    font-style: italic;
+  }
+
+  /* ── FORM FIELDS ── */
+  .field-group { margin-bottom: 24px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } .card { padding: 28px 22px; } }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+  }
+  label .req { color: var(--rose); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="time"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--rose-mid);
+    border-radius: 2px;
+    background: var(--white);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--rose);
+    box-shadow: 0 0 0 3px rgba(181,67,90,0.1);
+  }
+  input.error, select.error, textarea.error {
+    border-color: #c0392b;
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+  }
+  .error-msg {
+    font-size: 0.75rem; color: #c0392b;
+    margin-top: 4px; display: none;
+  }
+  .error-msg.show { display: block; }
+
+  textarea { resize: vertical; min-height: 90px; }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b5435a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  /* ── CHECKBOX / RADIO GROUPS ── */
+  .check-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .check-group.vertical { flex-direction: column; gap: 8px; }
+
+  .check-item input { display: none; }
+  .check-item label {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid var(--rose-mid);
+    border-radius: 2px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 0.83rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: var(--ink-mid);
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .check-item label::before {
+    content: '';
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--rose-light);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .check-item.checkbox label::before { border-radius: 2px; }
+  .check-item input:checked + label {
+    background: var(--rose-pale);
+    border-color: var(--rose);
+    color: var(--rose);
+    font-weight: 500;
+  }
+  .check-item input:checked + label::before {
+    background: var(--rose);
+    border-color: var(--rose);
+  }
+
+  /* ── PEOPLE COUNTER ── */
+  .counter-wrap { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+  .counter-btn {
+    width: 36px; height: 36px;
+    border: 1px solid var(--rose-mid);
+    background: var(--white);
+    border-radius: 50%;
+    color: var(--rose);
+    font-size: 1.2rem; line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+  }
+  .counter-btn:hover { background: var(--rose); color: var(--white); border-color: var(--rose); }
+  .counter-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; color: var(--ink); min-width: 32px; text-align: center;
+  }
+  .counter-label { font-size: 0.8rem; color: var(--ink-light); }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 40px; gap: 16px;
+  }
+  .btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: none; border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--rose);
+    color: var(--white);
+    box-shadow: 0 4px 20px rgba(181,67,90,0.3);
+  }
+  .btn-primary:hover { background: #9e3850; box-shadow: 0 6px 28px rgba(181,67,90,0.4); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink-mid);
+    border: 1px solid var(--rose-mid);
+  }
+  .btn-secondary:hover { border-color: var(--rose); color: var(--rose); }
+
+  /* ── STEP INDICATOR ── */
+  .step-indicator {
+    display: flex; justify-content: center; gap: 8px;
+    margin-bottom: 40px;
+  }
+  .step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--rose-mid);
+    transition: all 0.3s;
+  }
+  .step-dot.active { background: var(--rose); transform: scale(1.3); }
+  .step-dot.done { background: var(--rose-light); }
+
+  /* ── STEP LABEL ── */
+  .step-label {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 28px;
+  }
+  .step-label span { color: var(--rose); }
+
+  /* ── SUMMARY ── */
+  #summary-view { display: none; }
+  .summary-section { margin-bottom: 32px; }
+  .summary-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: var(--rose);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rose-mid);
+  }
+  .summary-row {
+    display: flex; gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--cream-dark);
+    font-size: 0.88rem;
+  }
+  .summary-row .sk { color: var(--ink-light); min-width: 180px; flex-shrink: 0; }
+  .summary-row .sv { color: var(--ink); }
+  .copy-btn {
+    display: block; width: 100%;
+    background: var(--rose-pale);
+    border: 1px dashed var(--rose);
+    color: var(--rose);
+    padding: 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-top: 24px;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: var(--rose); color: var(--white); }
+
+  /* ── THANK YOU ── */
+  .thankyou {
+    text-align: center; padding: 60px 0 20px;
+  }
+  .thankyou .heart { font-size: 3rem; display: block; margin-bottom: 20px; }
+  .thankyou h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 300;
+    color: var(--rose); margin-bottom: 16px;
+  }
+  .thankyou p { color: var(--ink-mid); font-size: 0.9rem; line-height: 1.8; max-width: 480px; margin: 0 auto; }
+
+  .info-note {
+    background: var(--rose-pale);
+    border-left: 3px solid var(--rose);
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    color: var(--ink-mid);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .section-sep {
+    height: 1px; background: var(--rose-mid);
+    margin: 28px 0; opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+<header class="site-header">
+  <span class="header-ornament">✦ Bridal Beauty ✦</span>
+  <h1>Wedding Day<br><em>Booking Details</em></h1>
+  <p>Please complete this form with as much detail as possible — the more you share, the more seamlessly your morning will flow.</p>
+  <div class="divider"><span>❧</span></div>
+</header>
+
+<main class="form-container">
+
+  <div class="step-indicator" id="stepDots"></div>
+  <div class="step-label" id="stepLabel"></div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 1: Your Details -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step active" id="step-1">
+    <div class="card">
+      <div class="card-title"><span class="num">01</span> Your Details</div>
+      <div class="card-subtitle">Let's start with the basics.</div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" id="fullName" placeholder="e.g. Sarah Williams" required>
+          <div class="error-msg" id="err-fullName">Please enter your full name.</div>
+        </div>
+        <div class="field-group">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="hello@email.com" required>
+          <div class="error-msg" id="err-email">Please enter a valid email.</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Wedding Date <span class="req">*</span></label>
+          <input type="date" id="weddingDate" required>
+          <div class="error-msg" id="err-weddingDate">Please select your wedding date.</div>
+        </div>
+        <div class="field-group">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="04xx xxx xxx" required>
+          <div class="error-msg" id="err-phone">Please enter your phone number.</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-primary" onclick="nextStep(1)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 2: Location & Timing -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-2">
+    <div class="card">
+      <div class="card-title"><span class="num">02</span> Location &amp; Timing</div>
+      <div class="card-subtitle">Helps me plan the morning schedule down to the minute.</div>
+
+      <div class="field-group">
+        <label>Getting Ready Location — Full Address <span class="req">*</span></label>
+        <input type="text" id="gettingReadyAddress" placeholder="Street address, suburb, state, postcode" required>
+        <div class="error-msg" id="err-gettingReadyAddress">Please enter your getting ready address.</div>
+      </div>
+      <div class="field-group">
+        <label>Venue Name (if different to getting ready location)</label>
+        <input type="text" id="venueName" placeholder="e.g. The Calile Hotel">
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Ceremony Time <span class="req">*</span></label>
+          <input type="time" id="ceremonyTime" required>
+          <div class="error-msg" id="err-ceremonyTime">Please enter ceremony time.</div>
+        </div>
+        <div class="field-group">
+          <label>What time do you need to be completely ready by? <span class="req">*</span></label>
+          <input type="time" id="readyByTime" required>
+          <div class="error-msg" id="err-readyByTime">Please enter your ready-by time.</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Will you be getting dressed at the getting ready location?</label>
+        <div class="check-group">
+          <div class="check-item"><input type="radio" name="gettingDressed" id="gd-yes" value="Yes"><label for="gd-yes">Yes</label></div>
+          <div class="check-item"><input type="radio" name="gettingDressed" id="gd-no" value="No — I'll dress elsewhere"><label for="gd-no">No — I'll dress elsewhere</label></div>
+          <div class="check-item"><input type="radio" name="gettingDressed" id="gd-unsure" value="Unsure"><label for="gd-unsure">Unsure</label></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Planned departure time for ceremony</label>
+        <div class="check-group" style="margin-bottom:10px">
+          <div class="check-item"><input type="radio" name="departureKnown" id="dep-yes" value="yes" onchange="toggleDepart()"><label for="dep-yes">Yes, I know it</label></div>
+          <div class="check-item"><input type="radio" name="departureKnown" id="dep-no" value="no" onchange="toggleDepart()"><label for="dep-no">TBC</label></div>
+        </div>
+        <input type="time" id="departureTime" style="display:none;max-width:200px;">
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 3: Access & Parking -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-3">
+    <div class="card">
+      <div class="card-title"><span class="num">03</span> Access &amp; Parking</div>
+      <div class="card-subtitle">Helps me arrive on time and stress-free!</div>
+
+      <div class="field-group">
+        <label>Are there any access restrictions?</label>
+        <div class="check-group">
+          <div class="check-item checkbox"><input type="checkbox" id="acc-stairs" value="Stairs"><label for="acc-stairs">Stairs</label></div>
+          <div class="check-item checkbox"><input type="checkbox" id="acc-lift" value="Lift only"><label for="acc-lift">Lift only</label></div>
+          <div class="check-item checkbox"><input type="checkbox" id="acc-gate" value="Gate / buzz to enter"><label for="acc-gate">Gate / buzz to enter</label></div>
+          <div class="check-item checkbox"><input type="checkbox" id="acc-none" value="No restrictions"><label for="acc-none">No restrictions</label></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Access notes (gate codes, unit numbers, anything helpful)</label>
+        <input type="text" id="accessNotes" placeholder="e.g. Buzz unit 4, code is 1234, dog inside">
+      </div>
+      <div class="section-sep"></div>
+      <div class="field-group">
+        <label>Is parking available? <span class="req">*</span></label>
+        <div class="check-group">
+          <div class="check-item"><input type="radio" name="parking" id="p-free" value="Yes — free street parking"><label for="p-free">Yes — free street parking</label></div>
+          <div class="check-item"><input type="radio" name="parking" id="p-paid" value="Yes — paid (to be covered)"><label for="p-paid">Yes — paid (to be covered)</label></div>
+          <div class="check-item"><input type="radio" name="parking" id="p-drive" value="Yes — driveway / off-street"><label for="p-drive">Yes — driveway / off-street</label></div>
+          <div class="check-item"><input type="radio" name="parking" id="p-none" value="No parking nearby"><label for="p-none">No parking nearby</label></div>
+        </div>
+        <div class="error-msg" id="err-parking">Please select a parking option.</div>
+      </div>
+      <div class="field-group">
+        <label>Parking notes</label>
+        <input type="text" id="parkingNotes" placeholder="Any extra details to help me find a spot">
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(3)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(3)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 4: Photographer & Schedule -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-4">
+    <div class="card">
+      <div class="card-title"><span class="num">04</span> Photographer &amp; Schedule</div>
+      <div class="card-subtitle">So I can plan around anyone else arriving during prep.</div>
+
+      <div class="field-group">
+        <label>Is a photographer arriving during prep?</label>
+        <div class="check-group">
+          <div class="check-item"><input type="radio" name="photoArriving" id="ph-yes" value="Yes" onchange="togglePhoto()"><label for="ph-yes">Yes</label></div>
+          <div class="check-item"><input type="radio" name="photoArriving" id="ph-no" value="No" onchange="togglePhoto()"><label for="ph-no">No</label></div>
+          <div class="check-item"><input type="radio" name="photoArriving" id="ph-unsure" value="Unsure" onchange="togglePhoto()"><label for="ph-unsure">Unsure</label></div>
+        </div>
+      </div>
+      <div id="photoDetails" style="display:none;">
+        <div class="field-row">
+          <div class="field-group">
+            <label>Photographer Name</label>
+            <input type="text" id="photoName" placeholder="e.g. Jane Smith Photography">
+          </div>
+          <div class="field-group">
+            <label>Photographer Arrival Time</label>
+            <input type="time" id="photoArrivalTime">
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Any other vendors arriving during prep?</label>
+        <div class="info-note">e.g. videographer, florist, bridal stylist — include their name and arrival time</div>
+        <textarea id="otherVendors" placeholder="e.g. Videographer — Tom Jones — 8:00am&#10;Florist — arriving 9:30am to deliver bouquets"></textarea>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(4)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 5: People & Services -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-5">
+    <div class="card">
+      <div class="card-title"><span class="num">05</span> People &amp; Services</div>
+      <div class="card-subtitle">Tell me how many people need hair and/or makeup.</div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>How many people require HAIR? <span class="req">*</span></label>
+          <div class="counter-wrap">
+            <button class="counter-btn" onclick="adjustCount('hair',-1)">−</button>
+            <span class="counter-val" id="hairCount">0</span>
+            <span class="counter-label">people</span>
+            <button class="counter-btn" onclick="adjustCount('hair',1)">+</button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>How many people require MAKEUP? <span class="req">*</span></label>
+          <div class="counter-wrap">
+            <button class="counter-btn" onclick="adjustCount('makeup',-1)">−</button>
+            <span class="counter-val" id="makeupCount">0</span>
+            <span class="counter-label">people</span>
+            <button class="counter-btn" onclick="adjustCount('makeup',1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="error-msg show" id="err-counts" style="display:none;margin-bottom:16px;">Please add at least one person for hair or makeup.</div>
+
+      <div class="field-group">
+        <label>Please list everyone below <span class="req">*</span></label>
+        <div class="info-note">Include name and role for each person (e.g. Bride — Sarah, Bridesmaid 1 — Mia, Mother of Bride — Karen)</div>
+        <textarea id="peopleList" rows="5" placeholder="Bride — &#10;Bridesmaid 1 — &#10;Bridesmaid 2 — &#10;Other — " required></textarea>
+        <div class="error-msg" id="err-peopleList">Please list the people in your party.</div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(5)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(5)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 6: Hair Details -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-6">
+    <div class="card">
+      <div class="card-title"><span class="num">06</span> Hair Details</div>
+      <div class="card-subtitle">Complete one section per person receiving hair. Bridesmaids can fill in their own section!</div>
+
+      <div id="hairPersonsContainer"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(6)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(6)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 7: Makeup Details -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-7">
+    <div class="card">
+      <div class="card-title"><span class="num">07</span> Makeup Details</div>
+      <div class="card-subtitle">Complete one section per person receiving makeup.</div>
+
+      <div id="makeupPersonsContainer"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(7)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(7)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 8: Bridal Inspo & Trial -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-8">
+    <div class="card">
+      <div class="card-title"><span class="num">08</span> Bridal Inspo &amp; Trial</div>
+      <div class="card-subtitle">Tell me your vision for the big day.</div>
+
+      <div class="field-group">
+        <label>Bridal hair inspiration — description</label>
+        <textarea id="hairInspo" placeholder="e.g. Romantic, soft waves, half-up with loose face-framing pieces, delicate pins through the updo..."></textarea>
+      </div>
+      <div class="field-group">
+        <label>Bridal hair inspo images / Pinterest link</label>
+        <input type="url" id="hairInspoLink" placeholder="https://pinterest.com/your-board or paste any link">
+      </div>
+      <div class="section-sep"></div>
+      <div class="field-group">
+        <label>Bridal makeup inspiration — description</label>
+        <textarea id="makeupInspo" placeholder="e.g. Glowy skin, soft smokey eye, nude-pink lip, very natural but polished..."></textarea>
+      </div>
+      <div class="field-group">
+        <label>Bridal makeup inspo images / Pinterest link</label>
+        <input type="url" id="makeupInspoLink" placeholder="https://pinterest.com/your-board or paste any link">
+      </div>
+      <div class="section-sep"></div>
+      <div class="field-group">
+        <label>Have you had a trial?</label>
+        <div class="check-group">
+          <div class="check-item"><input type="radio" name="trial" id="t-hair" value="Yes — hair trial"><label for="t-hair">Yes — hair</label></div>
+          <div class="check-item"><input type="radio" name="trial" id="t-mua" value="Yes — makeup trial"><label for="t-mua">Yes — makeup</label></div>
+          <div class="check-item"><input type="radio" name="trial" id="t-both" value="Yes — both"><label for="t-both">Yes — both</label></div>
+          <div class="check-item"><input type="radio" name="trial" id="t-none" value="No trial yet"><label for="t-none">No trial yet</label></div>
+        </div>
+      </div>
+      <div class="field-group" id="trialBookWrap">
+        <label>Would you like to book a trial?</label>
+        <div class="check-group">
+          <div class="check-item"><input type="radio" name="trialBook" id="tb-yes" value="Yes please!"><label for="tb-yes">Yes please!</label></div>
+          <div class="check-item"><input type="radio" name="trialBook" id="tb-no" value="No thank you"><label for="tb-no">No thank you</label></div>
+          <div class="check-item"><input type="radio" name="trialBook" id="tb-booked" value="Already booked"><label for="tb-booked">Already booked</label></div>
+          <div class="check-item"><input type="radio" name="trialBook" id="tb-tbc" value="TBC"><label for="tb-tbc">TBC</label></div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Any changes from your trial you'd like on the day?</label>
+        <textarea id="trialChanges" placeholder="e.g. Loved the hair but wanted the updo a little looser, or try a deeper eye..."></textarea>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(8)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(8)">Next →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- STEP 9: Anything Else + Submit -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="step" id="step-9">
+    <div class="card">
+      <div class="card-title"><span class="num">09</span> Anything Else?</div>
+      <div class="card-subtitle">Final notes, questions, or anything I should know.</div>
+
+      <div class="field-group">
+        <label>Anything else you'd like me to know?</label>
+        <textarea id="anythingElse" rows="5" placeholder="Any extra requests, questions, concerns, or things that will help me make your morning perfect..."></textarea>
+      </div>
+      <div class="section-sep"></div>
+      <div class="field-group">
+        <label>Confirmation <span class="req">*</span></label>
+        <div class="check-group">
+          <div class="check-item checkbox">
+            <input type="checkbox" id="confirmAccurate">
+            <label for="confirmAccurate">I understand and confirm all details provided are accurate.</label>
+          </div>
+        </div>
+        <div class="error-msg" id="err-confirm">Please confirm your details are accurate.</div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="prevStep(9)">← Back</button>
+      <button class="btn btn-primary" onclick="submitForm()">Submit Form ✦</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SUMMARY VIEW -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="summary-view">
+    <div class="thankyou">
+      <span class="heart">♡</span>
+      <h2>You're all done!</h2>
+      <p>Your booking details have been <strong>sent automatically</strong> — there's nothing else you need to do. Your artist will be in touch soon. Below is a full copy of everything you submitted for your own records.</p>
+    </div>
+    <p style="text-align:center;margin-top:16px;font-size:0.9rem;color:var(--ink-mid);font-style:italic;">
+      I cannot wait to be part of your special day! ♡
+    </p>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let currentStep = 1;
+const TOTAL_STEPS = 9;
+let hairCountVal = 0;
+let makeupCountVal = 0;
+
+// ═══════════════════════════════════════════════════
+// STEP MANAGEMENT
+// ═══════════════════════════════════════════════════
+function updateProgress() {
+  const pct = ((currentStep - 1) / TOTAL_STEPS) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  // Dots
+  const dotsEl = document.getElementById('stepDots');
+  dotsEl.innerHTML = '';
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (i === currentStep ? ' active' : i < currentStep ? ' done' : '');
+    dotsEl.appendChild(d);
+  }
+
+  // Label
+  const labels = ['','Your Details','Location & Timing','Access & Parking','Photographer & Schedule','People & Services','Hair Details','Makeup Details','Bridal Inspo & Trial','Finishing Up'];
+  document.getElementById('stepLabel').innerHTML = `Step <span>${currentStep}</span> of ${TOTAL_STEPS} — ${labels[currentStep]}`;
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + n);
+  if (el) { el.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateProgress();
+}
+
+function nextStep(from) {
+  if (!validateStep(from)) return;
+
+  // Special: before step 6 (hair), build hair person cards
+  if (from === 5) {
+    buildHairPersons();
+    buildMakeupPersons();
+  }
+
+  currentStep = from + 1;
+  showStep(currentStep);
+}
+
+function prevStep(from) {
+  currentStep = from - 1;
+  showStep(currentStep);
+}
+
+// ═══════════════════════════════════════════════════
+// VALIDATION
+// ═══════════════════════════════════════════════════
+function validateStep(n) {
+  let ok = true;
+
+  function check(id, errId, condition) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!condition) {
+      if (el) el.classList.add('error');
+      if (err) err.classList.add('show');
+      ok = false;
+    } else {
+      if (el) el.classList.remove('error');
+      if (err) err.classList.remove('show');
+    }
+  }
+
+  if (n === 1) {
+    check('fullName', 'err-fullName', v('fullName').trim().length > 1);
+    check('email', 'err-email', /\S+@\S+\.\S+/.test(v('email')));
+    check('weddingDate', 'err-weddingDate', v('weddingDate').length > 0);
+    check('phone', 'err-phone', v('phone').trim().length > 6);
+  }
+  if (n === 2) {
+    check('gettingReadyAddress', 'err-gettingReadyAddress', v('gettingReadyAddress').trim().length > 3);
+    check('ceremonyTime', 'err-ceremonyTime', v('ceremonyTime').length > 0);
+    check('readyByTime', 'err-readyByTime', v('readyByTime').length > 0);
+  }
+  if (n === 3) {
+    const parkingPicked = document.querySelector('input[name="parking"]:checked');
+    const err = document.getElementById('err-parking');
+    if (!parkingPicked) { err.classList.add('show'); ok = false; }
+    else { err.classList.remove('show'); }
+  }
+  if (n === 5) {
+    const hv = hairCountVal, mv = makeupCountVal;
+    const errEl = document.getElementById('err-counts');
+    if (hv === 0 && mv === 0) { errEl.style.display='block'; ok = false; }
+    else { errEl.style.display='none'; }
+    check('peopleList', 'err-peopleList', v('peopleList').trim().length > 2);
+  }
+  if (n === 9) {
+    const confirmed = document.getElementById('confirmAccurate').checked;
+    const err = document.getElementById('err-confirm');
+    if (!confirmed) { err.classList.add('show'); ok = false; }
+    else { err.classList.remove('show'); }
+  }
+
+  if (!ok) window.scrollTo({ top: 0, behavior: 'smooth' });
+  return ok;
+}
+
+function v(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
+// ═══════════════════════════════════════════════════
+// TOGGLE HELPERS
+// ═══════════════════════════════════════════════════
+function toggleDepart() {
+  const yes = document.getElementById('dep-yes').checked;
+  document.getElementById('departureTime').style.display = yes ? 'block' : 'none';
+}
+function togglePhoto() {
+  const yes = document.getElementById('ph-yes').checked;
+  document.getElementById('photoDetails').style.display = yes ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════════════
+// COUNTERS
+// ═══════════════════════════════════════════════════
+function adjustCount(type, delta) {
+  if (type === 'hair') {
+    hairCountVal = Math.max(0, Math.min(20, hairCountVal + delta));
+    document.getElementById('hairCount').textContent = hairCountVal;
+  } else {
+    makeupCountVal = Math.max(0, Math.min(20, makeupCountVal + delta));
+    document.getElementById('makeupCount').textContent = makeupCountVal;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// BUILD DYNAMIC PERSON CARDS
+// ═══════════════════════════════════════════════════
+function buildHairPersons() {
+  const container = document.getElementById('hairPersonsContainer');
+  container.innerHTML = '';
+  const n = Math.max(hairCountVal, 1);
+  for (let i = 0; i < n; i++) {
+    const label = i === 0 ? 'Bride' : `Person ${i + 1}`;
+    container.appendChild(createHairCard(i, label));
+  }
+}
+
+function buildMakeupPersons() {
+  const container = document.getElementById('makeupPersonsContainer');
+  container.innerHTML = '';
+  const n = Math.max(makeupCountVal, 1);
+  for (let i = 0; i < n; i++) {
+    const label = i === 0 ? 'Bride' : `Person ${i + 1}`;
+    container.appendChild(createMakeupCard(i, label));
+  }
+}
+
+function createHairCard(i, personLabel) {
+  const div = document.createElement('div');
+  div.className = 'person-card';
+  div.innerHTML = `
+    <div class="person-card-title">✦ ${personLabel}</div>
+    <div class="field-group">
+      <label>Name</label>
+      <input type="text" id="h-name-${i}" placeholder="Full name">
+    </div>
+    <div class="field-group">
+      <label>Hair Length</label>
+      <select id="h-length-${i}">
+        <option value="">— Select —</option>
+        <option>Short (above shoulders)</option>
+        <option>Medium (shoulders)</option>
+        <option>Long (mid back)</option>
+        <option>Very Long (lower back / waist)</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Hair Thickness</label>
+      <select id="h-thickness-${i}">
+        <option value="">— Select —</option>
+        <option>Fine</option>
+        <option>Medium</option>
+        <option>Thick</option>
+        <option>Very Thick</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Hair Texture</label>
+      <select id="h-texture-${i}">
+        <option value="">— Select —</option>
+        <option>Straight</option>
+        <option>Slightly wavy</option>
+        <option>Wavy</option>
+        <option>Curly</option>
+        <option>Very curly / coily</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Will they be using clip-in extensions?</label>
+      <div class="check-group">
+        <div class="check-item"><input type="radio" name="h-ext-${i}" id="h-ext-yes-${i}" value="Yes"><label for="h-ext-yes-${i}">Yes</label></div>
+        <div class="check-item"><input type="radio" name="h-ext-${i}" id="h-ext-no-${i}" value="No"><label for="h-ext-no-${i}">No</label></div>
+        <div class="check-item"><input type="radio" name="h-ext-${i}" id="h-ext-unsure-${i}" value="Unsure"><label for="h-ext-unsure-${i}">Unsure</label></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Desired Hairstyle — Description</label>
+      <textarea id="h-style-${i}" placeholder="e.g. Soft half-up with loose curls, romantic braided elements, low sleek bun..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>Hair Inspo Images / Pinterest Link</label>
+      <input type="url" id="h-inspo-${i}" placeholder="https://pinterest.com/... or paste any image link">
+    </div>
+  `;
+  return div;
+}
+
+function createMakeupCard(i, personLabel) {
+  const div = document.createElement('div');
+  div.className = 'person-card';
+  div.innerHTML = `
+    <div class="person-card-title">✦ ${personLabel}</div>
+    <div class="field-group">
+      <label>Name</label>
+      <input type="text" id="m-name-${i}" placeholder="Full name">
+    </div>
+    <div class="field-group">
+      <label>Desired Makeup Style</label>
+      <div class="check-group">
+        <div class="check-item"><input type="radio" name="m-style-${i}" id="m-nat-${i}" value="Natural"><label for="m-nat-${i}">Natural</label></div>
+        <div class="check-item"><input type="radio" name="m-style-${i}" id="m-soft-${i}" value="Soft Glam"><label for="m-soft-${i}">Soft Glam</label></div>
+        <div class="check-item"><input type="radio" name="m-style-${i}" id="m-full-${i}" value="Full Glam"><label for="m-full-${i}">Full Glam</label></div>
+        <div class="check-item"><input type="radio" name="m-style-${i}" id="m-smo-${i}" value="Smokey / Glam"><label for="m-smo-${i}">Smokey / Glam</label></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Will they require lashes?</label>
+      <div class="check-group">
+        <div class="check-item"><input type="radio" name="m-lash-${i}" id="m-lash-strip-${i}" value="Yes — strip lash"><label for="m-lash-strip-${i}">Yes — strip lash</label></div>
+        <div class="check-item"><input type="radio" name="m-lash-${i}" id="m-lash-ind-${i}" value="Yes — individual"><label for="m-lash-ind-${i}">Yes — individual</label></div>
+        <div class="check-item"><input type="radio" name="m-lash-${i}" id="m-lash-no-${i}" value="No"><label for="m-lash-no-${i}">No</label></div>
+        <div class="check-item"><input type="radio" name="m-lash-${i}" id="m-lash-you-${i}" value="Up to you"><label for="m-lash-you-${i}">Up to you</label></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Skin Tone</label>
+      <select id="m-tone-${i}">
+        <option value="">— Select —</option>
+        <option>Fair / Light</option>
+        <option>Light / Medium</option>
+        <option>Medium</option>
+        <option>Medium / Dark (olive)</option>
+        <option>Dark</option>
+        <option>Deep</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Skin Type</label>
+      <div class="check-group">
+        <div class="check-item"><input type="radio" name="m-skintype-${i}" id="m-dry-${i}" value="Dry"><label for="m-dry-${i}">Dry</label></div>
+        <div class="check-item"><input type="radio" name="m-skintype-${i}" id="m-norm-${i}" value="Normal"><label for="m-norm-${i}">Normal</label></div>
+        <div class="check-item"><input type="radio" name="m-skintype-${i}" id="m-combo-${i}" value="Combination"><label for="m-combo-${i}">Combination</label></div>
+        <div class="check-item"><input type="radio" name="m-skintype-${i}" id="m-oily-${i}" value="Oily"><label for="m-oily-${i}">Oily</label></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Skin Concerns (tick all that apply)</label>
+      <div class="check-group">
+        <div class="check-item checkbox"><input type="checkbox" id="m-sc-acne-${i}" value="Acne / Breakouts"><label for="m-sc-acne-${i}">Acne / Breakouts</label></div>
+        <div class="check-item checkbox"><input type="checkbox" id="m-sc-sens-${i}" value="Sensitivity"><label for="m-sc-sens-${i}">Sensitivity</label></div>
+        <div class="check-item checkbox"><input type="checkbox" id="m-sc-dry-${i}" value="Dryness / Flaking"><label for="m-sc-dry-${i}">Dryness / Flaking</label></div>
+        <div class="check-item checkbox"><input type="checkbox" id="m-sc-ros-${i}" value="Rosacea"><label for="m-sc-ros-${i}">Rosacea</label></div>
+        <div class="check-item checkbox"><input type="checkbox" id="m-sc-pig-${i}" value="Pigmentation"><label for="m-sc-pig-${i}">Pigmentation</label></div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Allergies or ingredients to avoid</label>
+      <input type="text" id="m-allergy-${i}" placeholder="e.g. latex, fragrance, certain preservatives">
+    </div>
+    <div class="field-group">
+      <label>Usual foundation shade / brand (if known)</label>
+      <input type="text" id="m-foundation-${i}" placeholder="e.g. MAC NC20, Fenty 210W">
+    </div>
+    <div class="field-group">
+      <label>Makeup Inspo Images / Pinterest Link</label>
+      <input type="url" id="m-inspo-${i}" placeholder="https://pinterest.com/... or paste any image link">
+    </div>
+    <div class="field-group">
+      <label>Any other notes for this person</label>
+      <textarea id="m-notes-${i}" placeholder="Anything else that would help — eyes, lip preferences, things they love or hate..."></textarea>
+    </div>
+  `;
+  return div;
+}
+
+// ═══════════════════════════════════════════════════
+// COLLECT ALL DATA
+// ═══════════════════════════════════════════════════
+function getRadio(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '—';
+}
+function getCheckboxes(ids) {
+  return ids.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.checked;
+  }).map(id => document.getElementById(id).value).join(', ') || '—';
+}
+
+function collectAll() {
+  const data = {};
+
+  // Step 1
+  data['Full Name'] = v('fullName') || '—';
+  data['Email'] = v('email') || '—';
+  data['Wedding Date'] = v('weddingDate') || '—';
+  data['Phone'] = v('phone') || '—';
+
+  // Step 2
+  data['Getting Ready Address'] = v('gettingReadyAddress') || '—';
+  data['Venue Name'] = v('venueName') || '—';
+  data['Ceremony Time'] = v('ceremonyTime') || '—';
+  data['Ready By Time'] = v('readyByTime') || '—';
+  data['Getting Dressed at Location'] = getRadio('gettingDressed');
+  const depKnown = document.getElementById('dep-yes').checked;
+  data['Departure Time'] = depKnown ? (v('departureTime') || '—') : 'TBC';
+
+  // Step 3
+  const accChecks = ['acc-stairs','acc-lift','acc-gate','acc-none'];
+  data['Access Restrictions'] = getCheckboxes(accChecks);
+  data['Access Notes'] = v('accessNotes') || '—';
+  data['Parking'] = getRadio('parking');
+  data['Parking Notes'] = v('parkingNotes') || '—';
+
+  // Step 4
+  data['Photographer Arriving'] = getRadio('photoArriving');
+  data['Photographer Name'] = v('photoName') || '—';
+  data['Photographer Arrival Time'] = v('photoArrivalTime') || '—';
+  data['Other Vendors'] = v('otherVendors') || '—';
+
+  // Step 5
+  data['Number Requiring Hair'] = hairCountVal;
+  data['Number Requiring Makeup'] = makeupCountVal;
+  data['Party List'] = v('peopleList') || '—';
+
+  // Step 6 — Hair
+  const hairN = Math.max(hairCountVal, 1);
+  for (let i = 0; i < hairN; i++) {
+    const name = v(`h-name-${i}`) || (i===0?'Bride':`Person ${i+1}`);
+    data[`Hair — ${name} — Length`] = v(`h-length-${i}`) || '—';
+    data[`Hair — ${name} — Thickness`] = v(`h-thickness-${i}`) || '—';
+    data[`Hair — ${name} — Texture`] = v(`h-texture-${i}`) || '—';
+    data[`Hair — ${name} — Extensions`] = getRadio(`h-ext-${i}`);
+    data[`Hair — ${name} — Style Description`] = v(`h-style-${i}`) || '—';
+    data[`Hair — ${name} — Inspo Link`] = v(`h-inspo-${i}`) || '—';
+  }
+
+  // Step 7 — Makeup
+  const muaN = Math.max(makeupCountVal, 1);
+  for (let i = 0; i < muaN; i++) {
+    const name = v(`m-name-${i}`) || (i===0?'Bride':`Person ${i+1}`);
+    data[`Makeup — ${name} — Style`] = getRadio(`m-style-${i}`);
+    data[`Makeup — ${name} — Lashes`] = getRadio(`m-lash-${i}`);
+    data[`Makeup — ${name} — Skin Tone`] = v(`m-tone-${i}`) || '—';
+    data[`Makeup — ${name} — Skin Type`] = getRadio(`m-skintype-${i}`);
+    const scIds = [`m-sc-acne-${i}`,`m-sc-sens-${i}`,`m-sc-dry-${i}`,`m-sc-ros-${i}`,`m-sc-pig-${i}`];
+    data[`Makeup — ${name} — Skin Concerns`] = getCheckboxes(scIds);
+    data[`Makeup — ${name} — Allergies`] = v(`m-allergy-${i}`) || '—';
+    data[`Makeup — ${name} — Foundation`] = v(`m-foundation-${i}`) || '—';
+    data[`Makeup — ${name} — Inspo Link`] = v(`m-inspo-${i}`) || '—';
+    data[`Makeup — ${name} — Notes`] = v(`m-notes-${i}`) || '—';
+  }
+
+  // Step 8
+  data['Bridal Hair Inspo'] = v('hairInspo') || '—';
+  data['Bridal Hair Inspo Link'] = v('hairInspoLink') || '—';
+  data['Bridal Makeup Inspo'] = v('makeupInspo') || '—';
+  data['Bridal Makeup Inspo Link'] = v('makeupInspoLink') || '—';
+  data['Trial Had'] = getRadio('trial');
+  data['Book Trial'] = getRadio('trialBook');
+  data['Trial Changes'] = v('trialChanges') || '—';
+
+  // Step 9
+  data['Additional Notes'] = v('anythingElse') || '—';
+
+  return data;
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER SUMMARY
+// ═══════════════════════════════════════════════════
+function renderSummary(data) {
+  const sections = [
+    { title: 'Your Details', keys: ['Full Name','Email','Wedding Date','Phone'] },
+    { title: 'Location & Timing', keys: ['Getting Ready Address','Venue Name','Ceremony Time','Ready By Time','Getting Dressed at Location','Departure Time'] },
+    { title: 'Access & Parking', keys: ['Access Restrictions','Access Notes','Parking','Parking Notes'] },
+    { title: 'Photographer & Schedule', keys: ['Photographer Arriving','Photographer Name','Photographer Arrival Time','Other Vendors'] },
+    { title: 'People & Services', keys: ['Number Requiring Hair','Number Requiring Makeup','Party List'] },
+    { title: 'Bridal Inspo & Trial', keys: ['Bridal Hair Inspo','Bridal Hair Inspo Link','Bridal Makeup Inspo','Bridal Makeup Inspo Link','Trial Had','Book Trial','Trial Changes'] },
+    { title: 'Additional Notes', keys: ['Additional Notes'] },
+  ];
+
+  // Auto-add hair/makeup keys
+  const hairKeys = Object.keys(data).filter(k => k.startsWith('Hair —'));
+  const makeupKeys = Object.keys(data).filter(k => k.startsWith('Makeup —'));
+  if (hairKeys.length) sections.splice(5, 0, { title: 'Hair Details', keys: hairKeys });
+  if (makeupKeys.length) sections.splice(hairKeys.length ? 6 : 5, 0, { title: 'Makeup Details', keys: makeupKeys });
+
+  const el = document.getElementById('summaryContent');
+  el.innerHTML = '';
+  sections.forEach(sec => {
+    const secKeys = sec.keys.filter(k => data[k] !== undefined);
+    if (!secKeys.length) return;
+    const div = document.createElement('div');
+    div.className = 'summary-section';
+    div.innerHTML = `<h3>${sec.title}</h3>`;
+    secKeys.forEach(k => {
+      const row = document.createElement('div');
+      row.className = 'summary-row';
+      row.innerHTML = `<span class="sk">${k}</span><span class="sv">${String(data[k]).replace(/\n/g,'<br>')}</span>`;
+      div.appendChild(row);
+    });
+    el.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// SUBMIT — sends to Formspree then shows summary
+// ═══════════════════════════════════════════════════
+async function submitForm() {
+  if (!validateStep(9)) return;
+
+  const data = collectAll();
+
+  const submitBtn = document.querySelector('#step-9 .btn-primary');
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = '0.7';
+
+  const subject = encodeURIComponent('Bridal Booking Details from ' + (data['Full Name'] || 'Client'));
+  const body = encodeURIComponent(
+    'BRIDAL BOOKING DETAILS\n\n' + Object.entries(data).map(([k,v]) => k + ': ' + v).join('\n')
+  );
+
+  window.location.href = `mailto:laura.borzillo@hotmail.com?subject=${subject}&body=${body}`;
+
+  setTimeout(() => {
+    document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
+    document.getElementById('stepDots').style.display = 'none';
+    document.getElementById('stepLabel').style.display = 'none';
+    document.getElementById('progressBar').style.width = '100%';
+    renderSummary(data);
+    document.getElementById('summary-view').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 1000);
+}
+
+// ═══════════════════════════════════════════════════
+// COPY SUMMARY
+// ═══════════════════════════════════════════════════
+function copySummary() {
+  const data = collectAll();
+  let text = '✦ BRIDAL BEAUTY — BOOKING DETAILS ✦\n';
+  text += '━'.repeat(40) + '\n\n';
+
+  const groups = {};
+  Object.entries(data).forEach(([k, val]) => {
+    const section = k.startsWith('Hair —') ? 'HAIR DETAILS' :
+                    k.startsWith('Makeup —') ? 'MAKEUP DETAILS' :
+                    ['Full Name','Email','Wedding Date','Phone'].includes(k) ? 'YOUR DETAILS' :
+                    ['Getting Ready Address','Venue Name','Ceremony Time','Ready By Time','Getting Dressed at Location','Departure Time'].includes(k) ? 'LOCATION & TIMING' :
+                    ['Access Restrictions','Access Notes','Parking','Parking Notes'].includes(k) ? 'ACCESS & PARKING' :
+                    ['Photographer Arriving','Photographer Name','Photographer Arrival Time','Other Vendors'].includes(k) ? 'PHOTOGRAPHER & SCHEDULE' :
+                    ['Number Requiring Hair','Number Requiring Makeup','Party List'].includes(k) ? 'PEOPLE & SERVICES' :
+                    k.startsWith('Bridal') || ['Trial Had','Book Trial','Trial Changes'].includes(k) ? 'BRIDAL INSPO & TRIAL' :
+                    'ADDITIONAL NOTES';
+    if (!groups[section]) groups[section] = [];
+    groups[section].push(`  ${k}: ${val}`);
+  });
+
+  Object.entries(groups).forEach(([sec, lines]) => {
+    text += `── ${sec} ──\n`;
+    text += lines.join('\n') + '\n\n';
+  });
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copied! Now paste into an email to your artist.';
+    btn.style.background = 'var(--rose)';
+    btn.style.color = 'white';
+    setTimeout(() => {
+      btn.textContent = '✦ Copy Summary to Clipboard';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+updateProgress();
+</script>
+</body>
+</html>
